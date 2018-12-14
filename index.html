@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="calculate distance from a thunder strike">
+<meta name="keywords" content="weather, thunder calculator, thunderstorm, sound, temperature">
+<meta name="author" content="sallm.in">
+<title>Thunder Distance Calculator</title>
+<link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="assets/img/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="assets/img/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="assets/img/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="assets/img/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="assets/css/main.css" rel="stylesheet">
+<!-- Google Analytics -->
+
+</head>
+
+<body>
+  <div class="mainDiv" id="root">
+    <h1>Thunder Distance Calculator</h1>
+    
+    <div class="container">
+      <span ><small><a href="#" @click="show = !show" class="textColor">How?</a></small></span>
+      <p class="lead" :hidden="show">
+      Calculating the distance of a thunder is really easy. All you need it to count in seconds how long it takes for you to hear rumble after thunder has struck. Knowing that light travels approximately 300 000 km/s, or more than 6 times round the world in a second, we know that we see the light immediately upon striking. Sound travels at about 340 m/s in room temperature (20&#8451;). To calculate the final distance of a thunder we just multiply seconds counted with speed of sound. Example: If we counted 5 seconds after thunder struck, and then multiply this number by 340 we get 1700 meters or 1.7 kilometers distance from a thunder.</p>
+    
+    <div class="row">
+      <form action="calculate.php" method="post">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="secondsCount">Enter seconds count*</label>
+            <input type="number" min="0" v-model="seconds" @click="calculate()" @keyup="calculate()" class="form-control" />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="temperature">Temperature (&#8451;)</label>
+            <input type="number" min="0" v-model="temperature" @click="calculate()" @keyup="calculate()" class="form-control" />
+          </div>
+        </div>
+    
+      </div>
+      </form>
+      <span class="textColor">Result:</span><br>
+      <span v-text="resultInMeters"></span><br />
+      <span v-text="resultInKilometers"></span>
+      <br />
+      <span class="textColor" :hidden="warningText"><strong>Be aware!</strong> <br />Thunder is very close.</span>
+      <span class="textColor" :hidden="warningText2"><strong>You have Superman hearing!</strong> <br />You should call Avangers.</span>
+    </div>
+    <br><br>
+  <small><a href="https://sallm.in" class="linkColor" target="_blank">sallm.in</a></small>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+
+<script>
+ var app = new Vue({
+    el: '#root',
+    data: {
+      show: true,
+      seconds: '',
+      temperature: 20,
+      resultInMeters: '',
+      resultInKilometers: '',
+      warningText: true,
+      warningText2: true,
+    },
+    methods:
+    { 
+        calculate() {
+          var speed = parseFloat(331.4) + parseFloat(0.6*this.temperature);
+          var result = (parseFloat(this.seconds * speed)).toFixed(2);
+          if(result>0.1 && result <= 343){
+            this.resultInMeters = result+"m";
+            this.resultInKilometers = parseFloat(result/1000).toFixed(2)+"km";
+            this.warningText = false;
+            this.warningText2 = true;
+          }
+          else if(result >= 12000){
+            this.warningText2 = false;
+          }
+          else{
+            this.resultInMeters = result+"m";
+            this.resultInKilometers = parseFloat(result/1000).toFixed(2)+"km";
+            this.warningText2 = true;
+          }
+        }
+    }
+ });
+</script>
+</body>
+</html>

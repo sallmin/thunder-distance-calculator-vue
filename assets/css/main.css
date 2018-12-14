@@ -1,0 +1,34 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #001f3f;
+}
+
+body {
+    display: table;
+}
+
+.mainDiv {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    color: #fff;
+    font-size: 32px;
+    border: 1px solid;
+}
+
+.linkColor
+{
+    color: #3D9970;
+}
+
+.themeColor{
+	color: #3D9970;
+}
+
+.textColor{
+    color: #FF4136;
+}
